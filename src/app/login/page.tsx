@@ -6,11 +6,11 @@ export default function Login(){
 
     const switchSectionLogin = () => {
         setSwitchForm('login')
-    } 
+    }
 
     const switchSectionsignUp = () => {
         setSwitchForm('signUp')
-    } 
+    }
 
     const handleLogin = async (events: React.FormEvent<HTMLFormElement>) => {
         events.preventDefault()
@@ -25,6 +25,21 @@ export default function Login(){
             method: "POST",
             headers: {"Context-Type" : "application/json"},
             body: JSON.stringify({ email, password}),
+        })
+    }
+
+    const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        const formData = new FormData(event.currentTarget)
+        const email = formData.get('email');
+        const name = formData.get('name');
+        const password = formData.get('password');
+
+        const res = await fetch('/api/auth/register', {
+            method : 'POST',
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({email, name, password})
         })
     }
 
@@ -53,17 +68,17 @@ export default function Login(){
             {switchForm === "signUp" && (
                 <div id="signUp-section">
                     <h1>新規登録</h1>
-                    <form action="">
+                    <form action="" onSubmit={handleSignUp}>
                         <div>
                             <label htmlFor="name">ニックネーム</label><input type="text" name={'userName'} className="border-b-2 border-gray-400"/>
                         </div>
                         <div>
-                            <label htmlFor="email">メールアドレス</label><input type="text" name={'e-mail'} className="border-b-2 border-gray-400"/>
+                            <label htmlFor="email">メールアドレス</label><input type="text" name={'email'} className="border-b-2 border-gray-400"/>
                         </div>
                         <div>
                             <label htmlFor="password">パスワード</label><input type="password" name={'password'} className="border-b-2 border-gray-400"/>
                         </div>
-                        <button>新規登録</button>
+                        <button type="submit">新規登録</button>
                     </form>
                 </div>
             )}
