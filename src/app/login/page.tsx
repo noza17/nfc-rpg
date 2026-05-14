@@ -12,10 +12,10 @@ export default function Login(){
         setSwitchForm('signUp')
     }
 
-    const handleLogin = async (events: React.FormEvent<HTMLFormElement>) => {
-        events.preventDefault()
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
 
-        const formData = new FormData(events.currentTarget)
+        const formData = new FormData(event.currentTarget)
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
@@ -23,7 +23,7 @@ export default function Login(){
 
         const res = await fetch("/api/auth/session", {
             method: "POST",
-            headers: {"Context-Type" : "application/json"},
+            headers: {"Content-Type" : "application/json"},
             body: JSON.stringify({ email, password}),
         })
     }
